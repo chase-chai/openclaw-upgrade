@@ -85,7 +85,7 @@ docker run --platform linux/amd64 \
 
         echo "📦 安装 Node.js..."
         apt-get update -qq
-        apt-get install -y -qq curl ca-certificates
+        apt-get install -y -qq curl ca-certificates git
 
         curl -fsSL https://deb.nodesource.com/setup_22.x | bash - >/dev/null 2>&1
         apt-get install -y -qq nodejs
