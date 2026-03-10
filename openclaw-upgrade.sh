@@ -65,9 +65,37 @@ echo ""
 info "将从 $CURRENT_VERSION 升级到 $LATEST_VERSION"
 echo ""
 
+# ── 准备本地编译环境镜像 ────────────────────────────────────
+BUILDER_IMAGE="openclaw-builder-base"
+
+if ! docker image inspect "$BUILDER_IMAGE" &>/dev/null; then
+    info "首次运行，构建本地编译环境镜像（约需 2-3 分钟，后续升级将跳过此步骤）..."
+    SETUP_CONTAINER="openclaw-setup-$$"
+    docker rm -f "$SETUP_CONTAINER" &>/dev/null || true
+    docker run --platform linux/amd64 \
+        --name "$SETUP_CONTAINER" \
+        ubuntu:22.04 \
+        bash -c '
+            set -e
+            export DEBIAN_FRONTEND=noninteractive
+            echo "📦 安装 Node.js 环境..."
+            apt-get update -qq
+            apt-get install -y -qq curl ca-certificates git
+            curl -fsSL https://deb.nodesource.com/setup_22.x | bash - >/dev/null 2>&1
+            apt-get install -y -qq nodejs
+            echo "Node.js: $(node -v)  npm: $(npm -v)"
+        '
+    docker commit "$SETUP_CONTAINER" "$BUILDER_IMAGE" >/dev/null
+    docker rm -f "$SETUP_CONTAINER" &>/dev/null || true
+    success "编译环境镜像已保存（$BUILDER_IMAGE），后续升级将直接使用"
+else
+    info "使用已有本地编译环境: $BUILDER_IMAGE"
+fi
+
+echo ""
+
 # ── 在 Docker 中编译 ────────────────────────────────────────
-info "启动 x86_64 Linux 容器进行编译..."
-info "（首次运行需要拉取镜像，约 100MB，请耐心等待）"
+info "启动编译容器..."
 echo ""
 
 CONTAINER_NAME="openclaw-builder-$$"
@@ -78,22 +106,10 @@ docker rm -f "$CONTAINER_NAME" &>/dev/null || true
 docker run --platform linux/amd64 \
     --name "$CONTAINER_NAME" \
     --memory="2g" \
-    ubuntu:22.04 \
+    "$BUILDER_IMAGE" \
     bash -c '
         set -e
-        export DEBIAN_FRONTEND=noninteractive
 
-        echo "📦 安装 Node.js..."
-        apt-get update -qq
-        apt-get install -y -qq curl ca-certificates git
-
-        curl -fsSL https://deb.nodesource.com/setup_22.x | bash - >/dev/null 2>&1
-        apt-get install -y -qq nodejs
-
-        echo "Node.js 版本: $(node -v)"
-        echo "npm 版本: $(npm -v)"
-
-        echo ""
         echo "🦞 安装 OpenClaw..."
         SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install -g openclaw@latest \
             --no-fund --no-audit
