@@ -45,10 +45,10 @@ chmod +x openclaw-upgrade.sh
 
 ```bash
 # 使用 SSH 别名
-./openclaw-upgrade.sh myserver
+bash openclaw-upgrade.sh myserver
 
 # 或直接使用 IP
-./openclaw-upgrade.sh root@1.2.3.4
+bash openclaw-upgrade.sh root@1.2.3.4
 ```
 
 脚本会自动完成：

@@ -50,13 +50,13 @@ chmod +x ~/openclaw-upgrade.sh
 ## 第三步：执行升级
 
 ```bash
-~/openclaw-upgrade.sh <你的SSH别名>
+bash openclaw-upgrade.sh <你的SSH别名>
 ```
 
 例如：
 
 ```bash
-~/openclaw-upgrade.sh myserver
+bash openclaw-upgrade.sh myserver
 ```
 
 脚本会自动完成以下所有步骤，**无需人工干预**：
