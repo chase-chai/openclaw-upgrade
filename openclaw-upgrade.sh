@@ -115,7 +115,7 @@ docker run --platform linux/amd64 \
             --no-fund --no-audit
 
         echo ""
-        OPENCLAW_BIN="$(npm bin -g)/openclaw"
+        OPENCLAW_BIN="$(npm prefix -g)/bin/openclaw"
         echo "✅ 安装完成，版本: $($OPENCLAW_BIN --version 2>/dev/null | head -1)"
 
         echo ""
