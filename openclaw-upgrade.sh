@@ -96,7 +96,7 @@ docker run --platform linux/amd64 \
         echo ""
         echo "🦞 安装 OpenClaw..."
         SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install -g openclaw@latest \
-            --no-fund --no-audit --loglevel error
+            --no-fund --no-audit
 
         echo ""
         OPENCLAW_BIN="$(npm bin -g)/openclaw"
