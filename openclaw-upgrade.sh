@@ -87,7 +87,7 @@ if ! docker image inspect "$BUILDER_IMAGE" &>/dev/null; then
         '
     docker commit "$SETUP_CONTAINER" "$BUILDER_IMAGE" >/dev/null
     docker rm -f "$SETUP_CONTAINER" &>/dev/null || true
-    success "编译环境镜像已保存（$BUILDER_IMAGE），后续升级将直接使用"
+    success "编译环境镜像已保存为 ${BUILDER_IMAGE}，后续升级将直接使用"
 else
     info "使用已有本地编译环境: $BUILDER_IMAGE"
 fi
