@@ -3,7 +3,7 @@
 # OpenClaw 远程升级脚本
 # 在 Mac 本地运行，通过 Docker 编译后自动部署到 Linux 服务器
 # 用法: ./openclaw-upgrade.sh <SSH别名或IP>
-# 示例: ./openclaw-upgrade.sh openclaw-xie
+# 示例: ./openclaw-upgrade.sh myserver
 #       ./openclaw-upgrade.sh 1.2.3.4
 # ============================================================
 

@@ -20,7 +20,7 @@
 编辑 `~/.ssh/config`，添加你的服务器：
 
 ```
-Host openclaw-xie          # ← 这里改成你喜欢的别名
+Host myserver              # ← 这里改成你喜欢的别名
     HostName 1.2.3.4       # ← 服务器 IP
     User root              # ← 登录用户名
     IdentityFile ~/.ssh/id_rsa  # ← SSH 私钥路径
@@ -56,7 +56,7 @@ chmod +x ~/openclaw-upgrade.sh
 例如：
 
 ```bash
-~/openclaw-upgrade.sh openclaw-xie
+~/openclaw-upgrade.sh myserver
 ```
 
 脚本会自动完成以下所有步骤，**无需人工干预**：
@@ -154,7 +154,7 @@ openclaw gateway restart
 ## 为什么这个方案可行
 
 ```
-Mac（32G 内存）          Linux 服务器（2C2G）
+Mac 本地          Linux 服务器（2C2G）
       │                          │
       │  Docker x86_64 容器       │
       │  完整编译 OpenClaw         │
